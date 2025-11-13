@@ -1,0 +1,89 @@
+/* Modern Dashboard Theme */
+@import url('/css/styles.css');
+
+:root {
+	--brand-1: #667eea;
+	--brand-2: #764ba2;
+	--surface: #ffffff;
+	--surface-2: #f8fafc;
+	--text-1: #1f2937;
+	--text-2: #4b5563;
+	--border: #e5e7eb;
+}
+
+body {
+	background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+	color: var(--text-1);
+}
+
+/* Layout */
+.owner-layout { display:flex; min-height:100vh; }
+.dashboard-nav {
+	width: 260px; min-width:260px; padding: 0; border-right:none;
+	background: linear-gradient(180deg, #374151 0%, #6366f1 100%);
+	box-shadow: 2px 0 16px rgba(60,72,100,0.10);
+	display:flex; flex-direction:column; align-items:stretch;
+}
+.dashboard-nav h2 {
+	font-size: 1.75rem; font-weight:800; color:#fff; margin:38px 0 28px 0; text-align:center; letter-spacing:1px;
+}
+.dashboard-nav ul { list-style:none; padding:12px; margin:0; flex:1; }
+.dashboard-nav li { margin: 4px 0; text-align:center; }
+.dashboard-nav a, .dashboard-nav .logout-link {
+	color:#e0e7ef; text-decoration:none; font-weight:500; font-size:1.13rem;
+	display:block; padding:12px 16px; margin:0; border-radius:8px; transition:.18s; background:none; border:none; cursor:pointer;
+}
+.dashboard-nav a.active, .dashboard-nav a:hover, .dashboard-nav .logout-link:hover {
+	background:#fff; color:#6366f1; font-weight:700; box-shadow:0 2px 12px rgba(99,102,241,0.08);
+}
+.dashboard-content {
+	flex:1; background:var(--surface); border-radius:0 16px 16px 0; box-shadow:0 6px 24px rgba(0,0,0,0.08);
+	padding:32px 24px; margin:32px 0;
+}
+@media (max-width: 900px) {
+	.owner-layout { flex-direction:column; }
+	.dashboard-nav { width:100%; min-width:unset; border-bottom:1px solid var(--border); border-radius:0; }
+	.dashboard-content { border-radius:0 0 16px 16px; margin:0; }
+}
+
+/* Cards */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:0 4px 24px rgba(60,72,100,0.10); }
+.card-header { padding:16px 24px; border-bottom:1px solid var(--border); border-radius:16px 16px 0 0; background:#fff; }
+.card-body { padding:18px; }
+
+/* Buttons */
+.btn { padding:10px 18px; border:none; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; font-weight:600; transition:.2s; box-shadow:0 2px 6px rgba(0,0,0,.04); }
+.btn-primary { background: linear-gradient(90deg, var(--brand-1) 0%, #3788d8 100%); color:#fff; }
+.btn-primary:hover { filter:brightness(1.05); box-shadow:0 4px 16px rgba(99,102,241,.13); }
+.btn-edit { background:#22c55e; color:#fff; }
+.btn-edit:hover { background:#16a34a; }
+.btn-delete { background:#ef4444; color:#fff; }
+.btn-delete:hover { background:#b91c1c; }
+
+/* Alerts */
+.alert { padding:12px 16px; border-radius:10px; margin:10px 0; }
+.alert-success { background:#e8f5e9; color:#2e7d32; border:1px solid #c8e6c9; }
+.alert-danger { background:#ffebee; color:#c62828; border:1px solid #ffcdd2; }
+
+/* Grids */
+.pets-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:24px; }
+.pet-card { background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%); border-radius:16px; padding:24px; box-shadow:0 4px 16px rgba(79,70,229,0.08); transition:.2s; text-align:center; }
+.pet-card:hover { transform: translateY(-6px); box-shadow:0 8px 32px rgba(79,70,229,0.16); }
+.pet-avatar { width:80px; height:80px; border-radius:50%; border:3px solid var(--brand-1); margin:0 auto 14px auto; display:flex; align-items:center; justify-content:center; font-size:2.1rem; color:var(--brand-1); background:#e0e7ff; }
+
+/* Appointments */
+.appointment-card { background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.07); padding:16px; display:flex; align-items:center; gap:12px; }
+.appointment-status { font-weight:700; text-transform:uppercase; padding:2px 10px; border-radius:12px; font-size:.9rem; }
+.status-SCHEDULED{ background:#e3f2fd; color:#1565c0; } .status-COMPLETED{ background:#e8f5e9; color:#2e7d32; } .status-CANCELLED{ background:#ffebee; color:#c62828; }
+
+/* Tables */
+.table-responsive { overflow-x:auto; }
+.table { width:100%; border-collapse:collapse; }
+.table th, .table td { padding:12px; border-top:1px solid var(--border); }
+.table thead th { background:#f1f5ff; border-bottom:2px solid #e0e7ff; }
+.table-hover tbody tr:hover { background:#e0e7ff; }
+
+/* Section header */
+.section-hero { text-align:center; margin-bottom:20px; }
+.section-hero .title { color:var(--brand-1); font-size:2rem; font-weight:800; letter-spacing:.5px; }
+.section-hero .subtitle { color:var(--text-2); }

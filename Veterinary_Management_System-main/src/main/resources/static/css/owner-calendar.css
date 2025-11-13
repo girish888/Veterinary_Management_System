@@ -1,0 +1,545 @@
+/* Pet Owner Calendar Styles */
+.owner-dashboard {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 20px rgba(5, 150, 105, 0.15);
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Next Appointment Banner */
+.next-appointment-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+.next-appointment-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.banner-content {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.banner-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.banner-info {
+    flex: 1;
+}
+
+.banner-info h4 {
+    color: #1f2937;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.banner-info p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.banner-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Stats Cards */
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.stat-icon.pets {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.stat-icon.appointments {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.stat-icon.prescriptions {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.stat-icon.reminders {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.stat-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1f2937;
+}
+
+.stat-label {
+    margin: 0;
+    color: #6b7280;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Calendar Container */
+.calendar-container {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.calendar-header {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.calendar-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.today-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.today-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.view-toggle {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.view-toggle .btn {
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.view-toggle .btn.active {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+/* FullCalendar Customization */
+#ownerCalendar {
+    padding: 2rem;
+}
+
+.fc {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.fc-toolbar {
+    margin-bottom: 2rem;
+}
+
+.fc-toolbar-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.fc-button {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.fc-button:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.fc-button-primary:not(:disabled).fc-button-active,
+.fc-button-primary:not(:disabled):active {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+/* Calendar Grid */
+.fc-daygrid-day {
+    min-height: 120px;
+    border: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+}
+
+.fc-daygrid-day:hover {
+    background-color: #f9fafb;
+}
+
+.fc-daygrid-day.fc-day-today {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-color: #10b981;
+}
+
+.fc-daygrid-day-number {
+    padding: 8px;
+    color: #374151;
+    font-weight: 600;
+}
+
+.fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    background: #10b981;
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* Event Styling */
+.fc-event {
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    margin: 3px 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.fc-event:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Event Types with Pet-Friendly Icons */
+.fc-event.checkup {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.fc-event.vaccination {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.fc-event.grooming {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+}
+
+.fc-event.surgery {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.fc-event.consultation {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+}
+
+.fc-event.followup {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+/* Event Content with Pet Icons */
+.fc-event-title {
+    font-weight: 600;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fc-event-title::before {
+    content: '🐾';
+    font-size: 0.8rem;
+}
+
+.fc-event-time {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.fc-event-time::before {
+    content: '🕐';
+    font-size: 0.7rem;
+}
+
+/* Pet Avatar in Events */
+.fc-event.pet-buddy::before {
+    content: '🐕';
+}
+
+.fc-event.pet-cat::before {
+    content: '🐱';
+}
+
+.fc-event.pet-bird::before {
+    content: '🦜';
+}
+
+.fc-event.pet-rabbit::before {
+    content: '🐰';
+}
+
+/* Time Grid Views */
+.fc-timegrid-slot {
+    height: 3em;
+}
+
+.fc-timegrid-slot-label {
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.fc-timegrid-now-indicator-line {
+    border-color: #10b981;
+    border-width: 2px;
+}
+
+.fc-timegrid-now-indicator-arrow {
+    border-color: #10b981;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .banner-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .banner-actions {
+        justify-content: center;
+    }
+    
+    .calendar-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .view-toggle {
+        justify-content: center;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .fc-toolbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .fc-toolbar-title {
+        font-size: 1.25rem;
+    }
+    
+    #ownerCalendar {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+    
+    .stat-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .calendar-header {
+        padding: 1rem;
+    }
+    
+    .banner-content {
+        padding: 1.5rem;
+    }
+}
+
+/* Accessibility */
+.fc-event:focus {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+}
+
+.fc-button:focus {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+}
+
+/* Smooth Animations */
+.fc-daygrid-day,
+.fc-event,
+.stat-card,
+.next-appointment-banner {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading States */
+.fc-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Empty State */
+.fc-list-empty {
+    padding: 3rem;
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* Custom Scrollbar */
+.fc-scroller::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fc-scroller::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.fc-scroller::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.fc-scroller::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Pet-themed decorative elements */
+.calendar-container::before {
+    content: '🐾';
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    font-size: 2rem;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* Hover effects for pet-friendly interactions */
+.stat-card:hover .stat-icon {
+    transform: scale(1.1);
+}
+
+.banner-icon:hover {
+    transform: rotate(5deg);
+}
+
+/* Pet paw print background pattern */
+.owner-dashboard::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}

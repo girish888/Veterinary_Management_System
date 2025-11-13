@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Prescriptions</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-modern.css}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+        }
+        .owner-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .dashboard-nav {
+            width: 250px;
+            min-width: 250px;
+            background: linear-gradient(180deg, #374151 0%, #6366f1 100%);
+            box-shadow: 2px 0 16px rgba(60,72,100,0.10);
+            border-right: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .dashboard-nav h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 38px 0 28px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .dashboard-nav ul {
+            list-style: none;
+            padding: 0 0 0 0;
+            margin: 0;
+            flex: 1;
+        }
+        .dashboard-nav li {
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .dashboard-nav a {
+            color: #e0e7ef;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.13rem;
+            padding: 14px 0;
+            display: block;
+            border-radius: 8px;
+            margin: 0 18px;
+            transition: background 0.18s, color 0.18s, font-weight 0.18s;
+            letter-spacing: 0.5px;
+        }
+        .dashboard-nav a.active, .dashboard-nav a:hover {
+            background: #fff;
+            color: #6366f1;
+            font-weight: 700;
+            box-shadow: 0 2px 12px rgba(99,102,241,0.08);
+        }
+        .dashboard-content {
+            flex: 1;
+            background: #fff;
+            border-radius: 0 16px 16px 0;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+            margin: 32px 0 32px 0;
+        }
+        @media (max-width: 900px) {
+            .owner-layout { flex-direction: column; }
+            .dashboard-nav { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid #e5e7eb; border-radius: 0; }
+            .dashboard-content { border-radius: 0 0 16px 16px; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="owner-layout">
+        <nav class="dashboard-nav">
+            <h2>Owner Panel</h2>
+            <ul>
+                <li><a th:href="@{/owner/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/owner/pets}">My Pets</a></li>
+                <li><a th:href="@{/owner/appointments}">Appointments</a></li>
+                <li><a th:href="@{/owner/prescriptions}" class="active">Prescriptions</a></li>
+                <li><a th:href="@{/owner/doctors}">Doctors</a></li>
+                <li><a th:href="@{/owner/messages}">Messages</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post" style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="logout-link" style="background:none; border:none; color:#e0e7ef; font-size:1.13rem; padding:14px 0; margin:0 18px; text-align:center; width:100%; display:block; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:500; transition:background 0.18s, color 0.18s, font-weight 0.18s; letter-spacing:0.5px;">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <main style="flex:1; padding:2.5rem 1.5rem; min-height:100vh; background:linear-gradient(135deg,#f8fafc 0%,#e0e7ff 100%);">
+            <div class="container-fluid px-0">
+                <div class="row g-4">
+                    <div class="col-12 mb-4">
+                        <div style="max-width:700px;margin:0 auto 24px auto;padding:32px 24px 24px 24px;background:linear-gradient(135deg,#e0e7ff 0%,#f8fafc 100%);border-radius:20px;box-shadow:0 4px 24px rgba(99,102,241,0.10);text-align:center;position:relative;overflow:hidden;">
+                            <div style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;">
+                                <span style="position:absolute;left:10%;top:10%;font-size:2.2rem;opacity:0.13;animation:floatIcon 6s ease-in-out infinite alternate;">💊</span>
+                                <span style="position:absolute;left:80%;top:20%;font-size:2.2rem;opacity:0.13;animation:floatIcon 7s 1.2s ease-in-out infinite alternate;">🐾</span>
+                                <span style="position:absolute;left:50%;top:5%;font-size:2.2rem;opacity:0.13;animation:floatIcon 5s 2.1s ease-in-out infinite alternate;">❤️</span>
+                            </div>
+                            <div style="position:relative;z-index:1;">
+                                <div style="font-size:2.5rem;color:#6366f1;margin-bottom:10px;"><i class="fas fa-prescription-bottle-alt"></i></div>
+                                <h1 style="font-size:2.2rem; font-weight:800; color:#6366f1; letter-spacing:1px; text-align:center; margin-bottom:0.5rem;">Prescriptions</h1>
+                                <p style="text-align:center; color:#555; font-size:1.1rem; margin-bottom:0;">View all prescriptions for your pets here.</p>
+                                <div style="margin-top:18px;font-size:1.08rem;color:#6366f1;font-style:italic;">"Medicine can cure, but a good veterinarian heals the heart."</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card shadow-sm mb-4 border-0" style="border-radius:22px; background:linear-gradient(135deg,#e3f0ff 0%,#f8f9fa 100%); box-shadow:0 6px 32px rgba(99,102,241,0.13);">
+                            <div class="card-header bg-white border-0 d-flex align-items-center" style="border-radius:22px 22px 0 0; min-height:64px;">
+                                <i class="fas fa-prescription-bottle-alt me-2" style="color:#6366f1; font-size:1.7rem;"></i>
+                                <h3 class="mb-0" style="color:#6366f1; font-weight:800; letter-spacing:0.5px; font-size:1.3rem;">All Prescriptions</h3>
+                            </div>
+                            <div class="card-body" style="padding:2rem 1.5rem;">
+                                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                                    <span th:text="${successMessage}"></span>
+                                </div>
+                                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                                    <span th:text="${errorMessage}"></span>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0" style="background:transparent; border-radius:14px; overflow:hidden;">
+                                        <thead class="table-light" style="background:#f1f5ff;">
+                                            <tr style="font-size:1.08rem;">
+                                                <th>Date</th>
+                                                <th>Pet</th>
+                                                <th>Veterinarian</th>
+                                                <th>Diagnosis</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="prescription : ${prescriptions}" style="transition:background 0.2s;">
+                                                <td th:text="${#temporals.format(prescription.date, 'yyyy-MM-dd HH:mm')}"></td>
+                                                <td th:text="${prescription.pet.name}"></td>
+                                                <td th:text="${prescription.veterinarian.fullName}"></td>
+                                                <td th:text="${prescription.diagnosis}"></td>
+                                                <td>
+                                                    <a th:href="@{/owner/prescriptions/{id}(id=${prescription.id})}" class="btn btn-info btn-sm" style="font-weight:600; border-radius:8px; padding:6px 16px; letter-spacing:0.5px; transition:background 0.18s; background:linear-gradient(90deg,#6366f1 0%,#3788d8 100%); color:#fff; border:none;">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+            @keyframes floatIcon {
+                0% { transform: translateY(0) scale(1); opacity:0.13; }
+                50% { transform: translateY(-30px) scale(1.15); opacity:0.22; }
+                100% { transform: translateY(-60px) scale(1.05); opacity:0.13; }
+            }
+            .table-hover tbody tr:hover {
+                background: #e0e7ff !important;
+                transition: background 0.18s;
+            }
+            .table thead th {
+                border-top: none;
+                border-bottom: 2px solid #e0e7ff;
+            }
+            .table td, .table th {
+                border: none;
+            }
+            .btn-info.btn-sm {
+                background: linear-gradient(90deg,#6366f1 0%,#3788d8 100%) !important;
+                color: #fff !important;
+                border: none !important;
+                font-weight: 700;
+                box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+                transition: background 0.2s, box-shadow 0.2s;
+            }
+            .btn-info.btn-sm:hover {
+                background: linear-gradient(90deg,#3788d8 0%,#6366f1 100%) !important;
+                box-shadow: 0 4px 16px rgba(99,102,241,0.13);
+            }
+            </style>
+        </main>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Veterinarians</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Veterinarians</h2>
+        
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+        
+        <a th:href="@{/veterinarians/add}" class="btn btn-primary">Add New Veterinarian</a>
+        
+        <div class="veterinarians-grid">
+            <div th:each="vet : ${veterinarians}" class="vet-card">
+                <div class="vet-info">
+                    <h3 th:text="${vet.name}">Veterinarian Name</h3>
+                    <p th:text="${vet.specialization}">Specialization</p>
+                    <p th:text="${vet.email}">Email</p>
+                    <p th:text="${vet.workingHours}">Working Hours</p>
+                </div>
+                <div class="vet-actions">
+                    <a th:href="@{/veterinarians/{id}/edit(id=${vet.id})}" class="btn btn-edit">Edit</a>
+                    <form th:action="@{/veterinarians/{id}/delete(id=${vet.id})}" method="post" 
+                          onsubmit="return confirm('Are you sure you want to delete this veterinarian?');">
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - VetCare</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/services.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>VetCare</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="/services" class="nav-link active">Services</a></li>
+                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+            </ul>
+            <ul class="nav-auth">
+                <li sec:authorize="!isAuthenticated()"><a href="/login" class="nav-link">Login</a></li>
+                <li sec:authorize="!isAuthenticated()"><a href="/user/register" class="nav-link register-btn">Register</a></li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="nav-link logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero hero-services">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Comprehensive Veterinary Services</h1>
+                <p class="hero-subtitle">From routine check-ups to emergency care, we provide complete healthcare solutions for your pets.</p>
+                <div class="hero-buttons">
+                    <a href="/contact" class="btn btn-secondary"><i class="fas fa-phone"></i>Contact Us</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Services" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-section">
+        <div class="container">
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Regular Check-ups</h3>
+                    <p>Comprehensive health examinations and preventive care to keep your pets healthy.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-syringe"></i></div>
+                    <h3>Vaccinations</h3>
+                    <p>Essential vaccinations to protect your pets from common diseases and infections.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-tooth"></i></div>
+                    <h3>Dental Care</h3>
+                    <p>Complete dental services including cleaning, polishing, and oral surgery.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-scalpel"></i></div>
+                    <h3>Surgical Procedures</h3>
+                    <p>Professional surgical care for various conditions with advanced monitoring.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-ambulance"></i></div>
+                    <h3>Emergency Care</h3>
+                    <p>24/7 emergency services for urgent situations, always ready to help.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-paw"></i></div>
+                    <h3>Grooming</h3>
+                    <p>Professional grooming services to keep your pets clean and comfortable.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Book an Appointment</h2>
+                <p>Schedule a visit with our experienced veterinarians today.</p>
+                <div class="cta-buttons">
+                    <a href="/login" class="btn btn-primary" sec:authorize="!isAuthenticated()"><i class="fas fa-sign-in-alt"></i>Login to Book</a>
+                    <a href="/appointments/new" class="btn btn-primary" sec:authorize="isAuthenticated()"><i class="fas fa-calendar-plus"></i>Book Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><i class="fas fa-paw"></i><span>VetCare</span></div>
+                    <p>Professional veterinary care for your beloved pets.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@vetcare.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 VetCare. All rights reserved.</p></div>
+        </div>
+    </footer>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

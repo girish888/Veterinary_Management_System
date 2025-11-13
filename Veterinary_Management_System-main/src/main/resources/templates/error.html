@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Error</h2>
+        <div class="alert alert-danger" th:text="${error}">Error message</div>
+        <a th:href="@{/dashboard}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

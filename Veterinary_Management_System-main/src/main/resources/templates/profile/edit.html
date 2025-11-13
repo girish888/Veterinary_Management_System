@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Profile - VetCare</title>
+    <link rel="stylesheet" th:href="@{/css/profile-modern.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Header Section -->
+        <div class="profile-header">
+            <div class="header-content">
+                <div class="header-navigation">
+                    <a th:if="${user.role.name() == 'OWNER'}" th:href="@{/owner/dashboard}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Dashboard
+                    </a>
+                    <a th:if="${user.role.name() == 'VETERINARIAN'}" th:href="@{/dashboard/vet}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Dashboard
+                    </a>
+                    <a th:if="${user.role.name() != 'OWNER' && user.role.name() != 'VETERINARIAN'}" th:href="@{/profile}" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Profile
+                    </a>
+                </div>
+                <h1><i class="fas fa-edit"></i> Edit Profile</h1>
+                <p class="header-subtitle">Update your information and preferences</p>
+            </div>
+        </div>
+
+        <!-- Main Edit Content -->
+        <div class="profile-content">
+            <!-- Profile Photo Section -->
+            <div class="profile-photo-section">
+                <div class="photo-container">
+                    <div class="photo-wrapper">
+                        <img th:if="${profile.profilePhoto != null}" 
+                             th:src="@{'/uploads/profile-photos/' + ${profile.profilePhoto}}" 
+                             alt="Profile Photo" 
+                             class="profile-photo" 
+                             id="currentPhoto" />
+                        <div th:if="${profile.profilePhoto == null}" class="profile-initial" id="currentInitial">
+                            <span th:text="${profile.fullName != null ? #strings.substring(profile.fullName,0,1).toUpperCase() : 'U'}"></span>
+                        </div>
+                        
+                        <!-- Photo Upload Overlay -->
+                        <div class="photo-overlay">
+                            <label for="profilePhotoInput" class="photo-upload-btn">
+                                <i class="fas fa-camera"></i>
+                                <span>Change Photo</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Photo Preview (hidden initially) -->
+                        <img id="photoPreview" class="profile-photo photo-preview" style="display: none;" alt="Photo Preview" />
+                    </div>
+                    
+                    <input type="file" id="profilePhotoInput" name="profilePhotoFile" accept="image/*" style="display: none;">
+                    
+                    <div class="photo-info">
+                        <p class="photo-hint">Click to upload a new photo</p>
+                        <p class="photo-requirements">JPG, PNG or GIF • Max 5MB</p>
+                        <div class="photo-actions" id="photoActions" style="display: none;">
+                            <button type="button" id="savePhotoBtn" class="btn btn-sm btn-primary">
+                                <i class="fas fa-save"></i> Save Photo
+                            </button>
+                            <button type="button" id="cancelPhotoBtn" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+            <div class="profile-form-container">
+                <form th:action="@{/profile/edit}" th:object="${profile}" method="post" enctype="multipart/form-data" class="profile-form" id="editProfileForm">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Personal Information
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">
+                                <i class="fas fa-id-card"></i>
+                                Full Name
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text" id="fullName" th:field="*{fullName}" required class="form-input" 
+                                   placeholder="Enter your full name" />
+                            <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-envelope"></i>
+                            Contact Information
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                                <span class="required">*</span>
+                            </label>
+                            <input type="email" id="email" th:field="*{email}" required class="form-input" 
+                                   placeholder="Enter your email address" />
+                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile" class="form-label">
+                                <i class="fas fa-phone"></i>
+                                Mobile Number
+                                <span class="required">*</span>
+                            </label>
+                            <input type="tel" id="mobile" th:field="*{mobile}" required class="form-input" 
+                                   placeholder="Enter your mobile number" />
+                            <span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}" class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <!-- Veterinarian-specific Information -->
+                    <div th:if="${profile.specialization != null}" class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-stethoscope"></i>
+                            Professional Information
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="specialization" class="form-label">
+                                <i class="fas fa-certificate"></i>
+                                Specialization
+                                <div class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltiptext">Your area of veterinary expertise</span>
+                                </div>
+                            </label>
+                            <input type="text" id="specialization" th:field="*{specialization}" class="form-input" 
+                                   placeholder="e.g., Small Animals, Surgery, Emergency Care" />
+                            <span th:if="${#fields.hasErrors('specialization')}" th:errors="*{specialization}" class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="workingHours" class="form-label">
+                                <i class="fas fa-clock"></i>
+                                Working Hours
+                                <div class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltiptext">Your regular working schedule</span>
+                                </div>
+                            </label>
+                            <input type="text" id="workingHours" th:field="*{workingHours}" class="form-input" 
+                                   placeholder="e.g., Mon-Fri 9:00 AM - 5:00 PM" />
+                            <span th:if="${#fields.hasErrors('workingHours')}" th:errors="*{workingHours}" class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <!-- Address Section -->
+                    <div th:if="${profile.address != null}" class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Location Information
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="address" class="form-label">
+                                <i class="fas fa-home"></i>
+                                Address
+                            </label>
+                            <textarea id="address" th:field="*{address}" class="form-textarea" 
+                                      placeholder="Enter your address" rows="3"></textarea>
+                            <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                        <a th:href="@{/profile}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Saving changes...</p>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="toast toast-success" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        <span>Profile updated successfully!</span>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="errorToast" class="toast toast-error" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorMessage">An error occurred</span>
+    </div>
+
+    <script th:src="@{/js/profile-modern.js}"></script>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

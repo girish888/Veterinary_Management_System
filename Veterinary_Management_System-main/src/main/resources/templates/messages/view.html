@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Message</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Message Details</h2>
+        
+        <div class="message-details">
+            <div class="detail-group">
+                <h3 th:text="${message.subject}">Subject</h3>
+                <p th:text="${'From: ' + message.senderName + ' (' + message.senderEmail + ')'}">Sender</p>
+                <p th:text="${'Date: ' + #temporals.format(message.sentAt, 'dd/MM/yyyy HH:mm')}">Date</p>
+            </div>
+            
+            <div class="detail-group">
+                <h4>Message Content:</h4>
+                <div class="message-content" th:text="${message.content}">Content</div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a th:href="@{/messages/admin/inbox}" class="btn btn-secondary">Back to Inbox</a>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

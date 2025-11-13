@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Schedule Appointment</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Schedule New Appointment</h2>
+        
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            Please correct the errors below.
+        </div>
+        
+        <form th:action="@{/appointments}" th:object="${appointment}" method="post">
+            <div class="form-group">
+                <label for="pet">Pet:</label>
+                <select id="pet" th:field="*{pet}" required>
+                    <option value="">Select Pet</option>
+                    <option th:each="pet : ${pets}"
+                            th:value="${pet.id}"
+                            th:text="${pet.name}">
+                    </option>
+                </select>
+                <span th:if="${#fields.hasErrors('pet')}" th:errors="*{pet}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="veterinarian">Veterinarian:</label>
+                <select id="veterinarian" th:field="*{veterinarian}" required>
+                    <option value="">Select Veterinarian</option>
+                    <option th:each="vet : ${veterinarians}"
+                            th:value="${vet.id}"
+                            th:text="${vet.name + ' - ' + vet.specialization}">
+                    </option>
+                </select>
+                <span th:if="${#fields.hasErrors('veterinarian')}" th:errors="*{veterinarian}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" th:field="*{date}" required>
+                <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <div style="margin-bottom:8px; color:#6366f1; font-weight:500; background:#f3f4f6; border-radius:6px; padding:8px 12px;">
+                    ✅ To ensure smooth scheduling and avoid overlapping, all appointments are spaced 30 minutes apart.<br>
+                    If you select a time like <b>8:45 AM</b>, the next available slot will be at <b>9:15 AM</b>.<br>
+                    Please choose your preferred time accordingly. Once a time is booked, it becomes unavailable for others until the 30-minute window has passed.<br>
+                    <span style="color:#888;">Thanks for your understanding!</span>
+                </div>
+                <input type="time" id="time" th:field="*{time}" required>
+                <span th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="reason">Reason:</label>
+                <textarea id="reason" th:field="*{reason}" required></textarea>
+                <span th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}"></span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Schedule Appointment</button>
+            <a th:href="@{/appointments}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${veterinarian.id == null ? 'Add Veterinarian' : 'Edit Veterinarian'}">Veterinarian Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2 th:text="${veterinarian.id == null ? 'Add New Veterinarian' : 'Edit Veterinarian'}">Veterinarian Form</h2>
+        
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            Please correct the errors below.
+        </div>
+        
+        <form th:action="${veterinarian.id == null ? '/veterinarians' : '/veterinarians/' + veterinarian.id}"
+              th:object="${veterinarian}"
+              method="post">
+            
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" th:field="*{name}" required>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="specialization">Specialization:</label>
+                <input type="text" id="specialization" th:field="*{specialization}" required>
+                <span th:if="${#fields.hasErrors('specialization')}" th:errors="*{specialization}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:field="*{email}" required>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="workingHours">Working Hours:</label>
+                <input type="text" id="workingHours" th:field="*{workingHours}" 
+                       placeholder="e.g., Mon-Fri 9:00-17:00">
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a th:href="@{/veterinarians}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointments</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Appointments</h2>
+        
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        
+        <div sec:authorize="hasRole('OWNER')">
+            <a th:href="@{/appointments/add}" class="btn btn-primary">Schedule New Appointment</a>
+        </div>
+        
+        <div class="appointments-grid">
+            <div th:each="appointment : ${appointments}" class="appointment-card">
+                <div class="appointment-info">
+                    <h3 th:text="${appointment.pet.name}">Pet Name</h3>
+                    <p th:text="${'Date: ' + appointment.date}">Date</p>
+                    <p th:text="${'Time: ' + appointment.time}">Time</p>
+                    <p th:text="${'Veterinarian: ' + appointment.veterinarian.name}">Vet Name</p>
+                    <p th:text="${'Reason: ' + appointment.reason}">Reason</p>
+                    <p th:text="${'Status: ' + appointment.status}">Status</p>
+                </div>
+                <div class="appointment-actions">
+                    <form th:if="${appointment.status == 'SCHEDULED'}"
+                          th:action="@{/appointments/{id}/cancel(id=${appointment.id})}" 
+                          method="post"
+                          onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

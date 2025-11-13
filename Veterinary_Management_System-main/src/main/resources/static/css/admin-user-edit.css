@@ -1,0 +1,49 @@
+/* Admin User Edit - modern styling */
+
+.admin-edit-wrapper {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.admin-edit-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 20px;
+}
+
+.admin-edit-grid .mb-3 {
+	margin-bottom: 0;
+}
+
+.form-card .form-label {
+	margin-bottom: 6px;
+}
+
+.form-card .form-control,
+.form-card .form-select {
+	width: 100%;
+	box-sizing: border-box;
+	min-height: 44px;
+}
+
+.admin-edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 12px;
+	margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+	.admin-edit-grid {
+		grid-template-columns: 1fr;
+	}
+	.admin-edit-actions {
+		justify-content: stretch;
+		flex-direction: column;
+	}
+}
+

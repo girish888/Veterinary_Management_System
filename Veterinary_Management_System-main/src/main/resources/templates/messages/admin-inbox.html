@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Inbox</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Inbox</h2>
+        
+        <div class="messages-grid">
+            <div th:each="message : ${messages}" class="message-card">
+                <div class="message-info">
+                    <h3 th:text="${message.subject}">Subject</h3>
+                    <p th:text="${'From: ' + message.senderName + ' (' + message.senderEmail + ')'}">Sender</p>
+                    <p th:text="${'Date: ' + #temporals.format(message.sentAt, 'dd/MM/yyyy HH:mm')}">Date</p>
+                </div>
+                <div class="message-actions">
+                    <a th:href="@{/messages/admin/{id}(id=${message.id})}" 
+                       class="btn btn-primary">View Message</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

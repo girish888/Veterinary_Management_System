@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointment Reminders - Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard-modern.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-user-edit.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .reminder-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 24px rgba(0,0,0,.06);
+            padding: 2rem;
+            border: 1px solid #eef2f7;
+            margin-bottom: 2rem;
+        }
+        
+        .reminder-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eef2f7;
+        }
+        
+        .reminder-header .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 16px rgba(99,102,241,.25);
+        }
+        
+        .reminder-header .title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #374151;
+        }
+        
+        .reminder-header .subtitle {
+            font-size: 1rem;
+            color: #6b7280;
+            margin-left: auto;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-reminder {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: #6366f1;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99,102,241,.3);
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: #fff;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .status-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .status-item {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .status-item .label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-item .value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .appointments-list {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .appointments-header {
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .appointment-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .appointment-info {
+            flex: 1;
+        }
+        
+        .appointment-time {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-details {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+        
+        .error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #16a34a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Navigation -->
+        <nav class="dashboard-nav">
+            <h2>Admin</h2>
+            <ul>
+                <li><a th:href="@{/dashboard/admin}">Dashboard</a></li>
+                <li><a th:href="@{/admin/users}">Users</a></li>
+                <li><a th:href="@{/admin/pets}">Pets</a></li>
+                <li><a th:href="@{/admin/appointments}">Appointments</a></li>
+                <li><a th:href="@{/admin/prescriptions}">Prescriptions</a></li>
+                <li><a th:href="@{/admin/veterinarians}">Veterinarians</a></li>
+                <li><a th:href="@{/admin/reminders}" class="active">Reminders</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post" style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="logout-link">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="icon"><i class="fas fa-bell"></i></div>
+                <div class="title">Appointment Reminders</div>
+            </div>
+
+            <!-- Status Card -->
+            <div class="status-card">
+                <h3 style="margin: 0 0 1rem 0; color: #0ea5e9;">System Status</h3>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="label">System Status</div>
+                        <div class="value" id="systemStatus">Loading...</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="label">Last Check</div>
+                        <div class="value" id="lastCheck">Loading...</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="label">Scheduled Jobs</div>
+                        <div class="value" id="scheduledJobs">Loading...</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="label">Today's Appointments</div>
+                        <div class="value" id="todayAppointments">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="reminder-card">
+                <div class="reminder-header">
+                    <div class="icon"><i class="fas fa-cog"></i></div>
+                    <div class="title">Manual Actions</div>
+                    <div class="subtitle">Trigger reminders manually when needed</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-reminder btn-primary" onclick="triggerTodaysReminders()">
+                        <i class="fas fa-play"></i>
+                        Send Today's Reminders
+                    </button>
+                    <button class="btn-reminder btn-secondary" onclick="loadTodaysAppointments()">
+                        <i class="fas fa-eye"></i>
+                        View Today's Appointments
+                    </button>
+                    <button class="btn-reminder btn-success" onclick="refreshStatus()">
+                        <i class="fas fa-sync"></i>
+                        Refresh Status
+                    </button>
+                </div>
+            </div>
+
+            <!-- Today's Appointments -->
+            <div class="reminder-card" id="appointmentsCard" style="display: none;">
+                <div class="reminder-header">
+                    <div class="icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="title">Today's Appointments</div>
+                    <div class="subtitle" id="appointmentsCount"></div>
+                </div>
+                
+                <div id="appointmentsList" class="appointments-list">
+                    <div class="loading">Loading appointments...</div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div id="messages"></div>
+        </main>
+    </div>
+
+    <script>
+        // Load system status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshStatus();
+        });
+
+        // Refresh system status
+        async function refreshStatus() {
+            try {
+                const response = await fetch('/api/reminders/status');
+                const data = await response.json();
+                
+                document.getElementById('systemStatus').textContent = data.status;
+                document.getElementById('lastCheck').textContent = new Date().toLocaleDateString();
+                document.getElementById('scheduledJobs').textContent = data.scheduledJobs.length;
+                
+                // Load today's appointment count
+                loadTodaysAppointmentsCount();
+                
+            } catch (error) {
+                console.error('Error loading status:', error);
+                showMessage('Error loading system status', 'error');
+            }
+        }
+
+        // Load today's appointment count
+        async function loadTodaysAppointmentsCount() {
+            try {
+                const response = await fetch('/api/reminders/appointments/today');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('todayAppointments').textContent = data.appointmentCount;
+                }
+            } catch (error) {
+                console.error('Error loading appointment count:', error);
+            }
+        }
+
+        // Trigger today's reminders
+        async function triggerTodaysReminders() {
+            try {
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                
+                const response = await fetch('/api/reminders/trigger/today', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    refreshStatus();
+                } else {
+                    showMessage(data.message, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error triggering reminders:', error);
+                showMessage('Failed to trigger reminders', 'error');
+            } finally {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        // Load today's appointments
+        async function loadTodaysAppointments() {
+            try {
+                const card = document.getElementById('appointmentsCard');
+                const list = document.getElementById('appointmentsList');
+                const count = document.getElementById('appointmentsCount');
+                
+                card.style.display = 'block';
+                list.innerHTML = '<div class="loading">Loading appointments...</div>';
+                
+                const response = await fetch('/api/reminders/appointments/today');
+                const data = await response.json();
+                
+                if (data.success) {
+                    count.textContent = `${data.appointmentCount} appointment(s)`;
+                    
+                    if (data.appointments.length === 0) {
+                        list.innerHTML = '<div class="appointments-header">No appointments scheduled for today</div>';
+                    } else {
+                        let html = '<div class="appointments-header">Appointments for Today</div>';
+                        
+                        data.appointments.forEach(appointment => {
+                            const time = new Date(appointment.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            html += `
+                                <div class="appointment-item">
+                                    <div class="appointment-info">
+                                        <div class="appointment-time">${time}</div>
+                                        <div class="appointment-details">
+                                            ${appointment.petName} (${appointment.petSpecies}) with ${appointment.ownerName} - Dr. ${appointment.veterinarianName}
+                                        </div>
+                                    </div>
+                                    <button class="btn-reminder btn-primary" onclick="sendReminderForAppointment(${appointment.appointmentId})">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Send Reminder
+                                    </button>
+                                </div>
+                            `;
+                        });
+                        
+                        list.innerHTML = html;
+                    }
+                } else {
+                    list.innerHTML = '<div class="error">Failed to load appointments</div>';
+                }
+                
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+                document.getElementById('appointmentsList').innerHTML = '<div class="error">Error loading appointments</div>';
+            }
+        }
+
+        // Send reminder for specific appointment
+        async function sendReminderForAppointment(appointmentId) {
+            try {
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                
+                const response = await fetch(`/api/reminders/send/${appointmentId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    button.innerHTML = '<i class="fas fa-check"></i> Sent';
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-success');
+                } else {
+                    showMessage(data.message, 'error');
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                }
+                
+            } catch (error) {
+                console.error('Error sending reminder:', error);
+                showMessage('Failed to send reminder', 'error');
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type;
+            messageDiv.textContent = message;
+            
+            messagesDiv.appendChild(messageDiv);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+    </script>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pet.id == null ? 'Add New Pet' : 'Edit Pet'}">Pet Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-modern.css}">
+    <link rel="stylesheet" th:href="@{/css/pet-form.css}">
+</head>
+<body>
+    <div class="pf-page">
+        <div class="pf-card">
+            <div class="pf-header">
+                <div class="pf-icon">🐾</div>
+                <h2 class="pf-title" th:text="${pet.id == null ? 'Add New Pet' : 'Edit Pet'}">Pet Form</h2>
+                <p class="pf-sub">Tell us more about your companion</p>
+            </div>
+            <div th:if="${error}" class="alert alert-danger pf-alert" th:text="${error}"></div>
+            <form class="pf-form" th:action="${pet.id == null ? '/pets' : '/pets/' + pet.id}" th:object="${pet}" method="post" enctype="multipart/form-data">
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger pf-alert">Please correct the errors below.</div>
+                <div class="pf-grid">
+                    <div class="pf-field">
+                        <label for="name">Pet Name</label>
+                        <input type="text" id="name" th:field="*{name}" placeholder="e.g. Bruno" required>
+                        <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                    </div>
+                    <div class="pf-field">
+                        <label for="species">Species</label>
+                        <input type="text" id="species" th:field="*{species}" placeholder="Dog, Cat, ..." required>
+                        <span class="error" th:if="${#fields.hasErrors('species')}" th:errors="*{species}"></span>
+                    </div>
+                    <div class="pf-field">
+                        <label for="breed">Breed</label>
+                        <input type="text" id="breed" th:field="*{breed}" placeholder="e.g. Labrador" required>
+                        <span class="error" th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></span>
+                    </div>
+                    <div class="pf-field">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" required>
+                        <span class="error" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+                    </div>
+                    <div class="pf-field">
+                        <label for="gender">Gender</label>
+                        <select id="gender" th:field="*{gender}" required>
+                            <option value="">Select gender</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="UNKNOWN">Unknown</option>
+                        </select>
+                        <span class="error" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+                    </div>
+                    <div class="pf-field pf-col-span-2">
+                        <label for="medicalHistory">Medical History</label>
+                        <textarea id="medicalHistory" th:field="*{medicalHistory}" rows="4" placeholder="Allergies, previous conditions, notes..."></textarea>
+                        <span class="error" th:if="${#fields.hasErrors('medicalHistory')}" th:errors="*{medicalHistory}"></span>
+                    </div>
+                </div>
+                <div class="pf-actions">
+                    <a th:href="@{/owner/pets}" class="btn btn-delete">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Pet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

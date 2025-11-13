@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - VetCare Veterinary Care</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/about.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>VetCare</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about" class="nav-link active">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <ul class="nav-auth">
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="nav-link">Login</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="/user/register" class="nav-link register-btn">Register</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="nav-link logout-btn">Logout</button>
+                    </form>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">About VetCare</h1>
+                <p class="hero-subtitle">Dedicated to providing the best care for your beloved pets with compassion, expertise, and state-of-the-art technology.</p>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="VetCare Clinic" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission">
+        <div class="container">
+            <div class="mission-content">
+                <div class="mission-text">
+                    <h2>Our Mission</h2>
+                    <p>We are dedicated to providing the highest quality veterinary care for your beloved pets. Our team of experienced veterinarians and staff work together to ensure your pets receive the best possible treatment and attention.</p>
+                    <p>We believe in compassionate, personalized care and strive to build lasting relationships with both pets and their owners. Every pet that walks through our doors is treated like family.</p>
+                    <div class="mission-features">
+                        <div class="feature-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Preventive and wellness care</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-stethoscope"></i>
+                            <span>Advanced diagnostics and surgery</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-ambulance"></i>
+                            <span>Emergency and critical care</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Client education and support</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-image">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Veterinary Care">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <div class="container">
+            <div class="section-header">
+                <h2>Meet Our Expert Team</h2>
+                <p>Our dedicated team of veterinary professionals is committed to providing exceptional care for your pets</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1000&q=90" alt="Dr. John Smith">
+                    </div>
+                    <div class="member-info">
+                        <h3>Dr. John Smith</h3>
+                        <span class="position">Chief Veterinarian</span>
+                        <p>Specializing in small animal surgery and emergency care with over 15 years of experience.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1000&q=90" alt="Dr. Sarah Johnson">
+                    </div>
+                    <div class="member-info">
+                        <h3>Dr. Sarah Johnson</h3>
+                        <span class="position">Senior Veterinarian</span>
+                        <p>Expert in preventive care and internal medicine with a passion for feline health.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Dr. Michael Brown">
+                    </div>
+                    <div class="member-info">
+                        <h3>Dr. Michael Brown</h3>
+                        <span class="position">Veterinarian</span>
+                        <p>Specializing in dental care and nutrition with advanced training in pet wellness.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Dr. Emily Davis">
+                    </div>
+                    <div class="member-info">
+                        <h3>Dr. Emily Davis</h3>
+                        <span class="position">Emergency Veterinarian</span>
+                        <p>Dedicated to providing critical care and emergency services 24/7 for your pets.</p>
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose VetCare?</h2>
+                <p>We stand out for our commitment to excellence and compassionate care</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Expert Care</h3>
+                    <p>Our team consists of highly qualified and experienced veterinarians with advanced training.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h3>Modern Facility</h3>
+                    <p>State-of-the-art equipment and comfortable environment designed for your pets' comfort.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock emergency care and support when your pets need us most.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Compassionate Care</h3>
+                    <p>We treat every pet with love, respect, and the attention they deserve.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Clinic</h2>
+                <p>Take a virtual tour of our modern, well-equipped veterinary facility</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item large">
+                    <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Main Reception">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Examination Room">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Surgery Suite">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Waiting Area">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Clients Say</h2>
+                <p>Read testimonials from our satisfied pet parents</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The staff at VetCare are amazing! They treated my dog with so much love and care. The level of professionalism and compassion is outstanding."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Priya S.">
+                        <div>
+                            <h4>Priya S.</h4>
+                            <span>Dog Owner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Professional, friendly, and always available in emergencies. My cat is in the best hands! The team goes above and beyond."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Rahul M.">
+                        <div>
+                            <h4>Rahul M.</h4>
+                            <span>Cat Owner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The preventive care approach has saved us from many health issues. Regular check-ups keep my pets healthy and happy."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Lisa Chen">
+                        <div>
+                            <h4>Lisa Chen</h4>
+                            <span>Pet Parent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Experience Exceptional Pet Care?</h2>
+                <p>Join our family of satisfied pet parents and give your beloved companions the care they deserve.</p>
+                <div class="cta-buttons">
+                    <a href="/user/register" class="btn btn-primary" sec:authorize="!isAuthenticated()">
+                        <i class="fas fa-user-plus"></i>
+                        Get Started Today
+                    </a>
+                    <a href="/contact" class="btn btn-outline">
+                        <i class="fas fa-phone"></i>
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-paw"></i>
+                        <span>VetCare</span>
+                    </div>
+                    <p>Professional veterinary care for your beloved pets. We're here to keep them healthy and happy.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="/services">Regular Check-ups</a></li>
+                        <li><a href="/services">Emergency Care</a></li>
+                        <li><a href="/services">Vaccinations</a></li>
+                        <li><a href="/services">Surgery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@vetcare.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Pet Street, City, State</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 VetCare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/about.js"></script>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

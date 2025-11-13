@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'VetCare - Professional Veterinary Care'">VetCare</title>
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Base styles -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    
+    <!-- Additional styles -->
+    <th:block th:replace="${additionalStyles} ?: ~{}">
+        <!-- Additional styles will be inserted here -->
+    </th:block>
+</head>
+
+<body th:fragment="body">
+    <!-- Main content -->
+    <th:block th:replace="${content}">
+        <!-- Page content will be inserted here -->
+    </th:block>
+    
+    <!-- Chatbot Script -->
+    <script th:src="@{/js/chatbot.js}"></script>
+    
+    <!-- Additional scripts -->
+    <th:block th:replace="${additionalScripts} ?: ~{}">
+        <!-- Additional scripts will be inserted here -->
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointment Calendar</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/fullcalendar.min.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/moment.min.js}"></script>
+    <script th:src="@{/js/fullcalendar.min.js}"></script>
+</head>
+<body style="margin:0; padding:0; background:#f8f9fa;">
+    <div class="container-fluid px-0" style="max-width:1100px;margin:40px auto 0 auto;">
+        <div class="row g-4">
+            <div class="col-12 col-lg-8 mx-auto">
+                <div class="card shadow-sm mb-4 border-0" style="border-radius:18px; background:linear-gradient(135deg,#f8f9fa 0%,#e0e7ff 100%);">
+                    <div class="card-header bg-white border-0 d-flex align-items-center" style="border-radius:18px 18px 0 0;">
+                        <i class="fas fa-calendar me-2" style="color:#6366f1; font-size:1.5rem;"></i>
+                        <h3 class="mb-0" style="color:#6366f1; font-weight:700; letter-spacing:0.5px;">Appointment Calendar</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            if (calendarEl) {
+                var appointments = /*[[${appointments}]]*/ [];
+                var events = appointments.map(function(appointment) {
+                    return {
+                        id: appointment.id,
+                        title: appointment.pet.name + ' - ' + appointment.reason,
+                        start: appointment.date + 'T' + appointment.time,
+                        end: appointment.date + 'T' + appointment.time + ':30',
+                        backgroundColor: appointment.status === 'SCHEDULED' ? '#3788d8' : 
+                                          appointment.status === 'COMPLETED' ? '#28a745' : '#dc3545',
+                        description: appointment.reason
+                    };
+                });
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    eventDisplay: 'list-item',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    events: events,
+                    eventClick: function(info) {
+                        var description = info.event.extendedProps.description;
+                        if (description) {
+                            alert('Reason: ' + description);
+                        }
+                    }
+                });
+                calendar.render();
+            }
+        });
+    </script>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

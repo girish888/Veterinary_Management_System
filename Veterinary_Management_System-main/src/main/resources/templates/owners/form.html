@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${owner.id == null ? 'Add Owner' : 'Edit Owner'}">Owner Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .owners-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .owners-sidebar {
+            width: 220px;
+            background: #f8f9fa;
+            padding: 32px 0 0 0;
+            border-right: 1px solid #e5e7eb;
+            min-height: 100vh;
+        }
+        .owners-sidebar h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .owners-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .owners-sidebar li {
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .owners-sidebar a {
+            color: #3730a3;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.08rem;
+            padding: 8px 0;
+            display: block;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .owners-sidebar a:hover, .owners-sidebar a.active {
+            background: #6366f1;
+            color: #fff;
+        }
+        .owners-main {
+            flex: 1;
+            padding: 40px 32px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #4f46e5;
+        }
+        .form-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 7px 16px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .btn-primary { background: #6366f1; color: #fff; }
+        .btn-secondary { background: #64748b; color: #fff; }
+        .btn-primary:hover { background: #4f46e5; }
+        .btn-secondary:hover { background: #334155; }
+        @media (max-width: 700px) {
+            .owners-layout { flex-direction: column; }
+            .owners-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e5e7eb; min-height: unset; }
+            .owners-main { padding: 18px 4px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="owners-layout">
+        <nav class="owners-sidebar">
+            <h2>Owners</h2>
+            <ul>
+                <li><a th:href="@{/owners}">Owners List</a></li>
+                <li><a th:href="@{/owners/add}" class="active">Add Owner</a></li>
+            </ul>
+        </nav>
+        <main class="owners-main">
+            <h2 th:text="${owner.id == null ? 'Add New Owner' : 'Edit Owner'}">Owner Form</h2>
+            <form th:action="${owner.id == null ? '/owners' : '/owners/' + owner.id}"
+                  th:object="${owner}"
+                  method="post">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" th:field="*{name}" required>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" th:field="*{email}" required>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" th:field="*{phone}" required>
+                    <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea id="address" th:field="*{address}" required></textarea>
+                    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a th:href="@{/owners}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

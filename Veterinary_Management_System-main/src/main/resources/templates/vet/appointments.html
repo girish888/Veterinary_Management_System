@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Veterinarian Appointments</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/fullcalendar.css}">
+    <script th:src="@{/js/fullcalendar.js}"></script>
+</head>
+<body style="margin:0; padding:0; background:#f8f9fa;">
+    <div style="display:flex; min-height:100vh;">
+        <nav class="dashboard-nav">
+            <h2>Veterinarian</h2>
+            <ul>
+                <li><a th:href="@{/dashboard/vet}">Dashboard</a></li>
+                <li><a th:href="@{/vet/appointments}" class="active">Appointments</a></li>
+                <li><a th:href="@{/vet/prescriptions}">Prescriptions</a></li>
+                <li><a th:href="@{/vet/messages}">Messages</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post" style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="logout-link" style="background:none; border:none; color:#e0e7ef; font-size:1.13rem; padding:14px 0; margin:0 18px; text-align:center; width:100%; display:block; border-radius:8px; cursor:pointer; text-decoration:none; font-weight:500; transition:background 0.18s, color 0.18s, font-weight 0.18s; letter-spacing:0.5px;">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <style>
+        .dashboard-nav {
+            width: 250px;
+            min-width: 250px;
+            background: linear-gradient(180deg, #374151 0%, #6366f1 100%);
+            box-shadow: 2px 0 16px rgba(60,72,100,0.10);
+            border-right: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .dashboard-nav h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 38px 0 28px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .dashboard-nav ul {
+            list-style: none;
+            padding: 0 0 0 0;
+            margin: 0;
+            flex: 1;
+        }
+        .dashboard-nav li {
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .dashboard-nav a, .dashboard-nav .logout-link {
+            color: #e0e7ef;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.13rem;
+            padding: 14px 0;
+            display: block;
+            border-radius: 8px;
+            margin: 0 18px;
+            transition: background 0.18s, color 0.18s, font-weight 0.18s;
+            letter-spacing: 0.5px;
+            background: none;
+            border: none;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+        }
+        .dashboard-nav a.active, .dashboard-nav a:hover, .dashboard-nav .logout-link:hover {
+            background: #fff;
+            color: #6366f1;
+            font-weight: 700;
+            box-shadow: 0 2px 12px rgba(99,102,241,0.08);
+        }
+        @media (max-width: 900px) {
+            .profile-block {
+                position: static;
+                margin: 0 auto 18px auto;
+                right: unset;
+                top: unset;
+            }
+        }
+        </style>
+        <main style="flex:1; padding:2.5rem 1.5rem; min-height:100vh; background:linear-gradient(135deg,#f8fafc 0%,#e0e7ff 100%);">
+            <div class="container-fluid px-0">
+                <div class="row g-4">
+                    <div class="col-12 mb-4">
+                        <h1 style="font-size:2.2rem; font-weight:800; color:#6366f1; letter-spacing:1px; text-align:center; margin-bottom:0.5rem;">Appointments</h1>
+                        <p style="text-align:center; color:#555; font-size:1.1rem; margin-bottom:0;">Manage all your upcoming, completed, and cancelled appointments here.</p>
+                    </div>
+                    <div class="col-12">
+                        <div class="card shadow-sm mb-4 border-0" style="border-radius:22px; background:linear-gradient(135deg,#e3f0ff 0%,#f8f9fa 100%); box-shadow:0 6px 32px rgba(99,102,241,0.13);">
+                            <div class="card-header bg-white border-0 d-flex align-items-center" style="border-radius:22px 22px 0 0; min-height:64px;">
+                                <i class="fas fa-calendar-alt me-2" style="color:#3498db; font-size:1.7rem;"></i>
+                                <h3 class="mb-0" style="color:#3498db; font-weight:800; letter-spacing:0.5px; font-size:1.3rem;">All Appointments</h3>
+                            </div>
+                            <div class="card-body" style="padding:2rem 1.5rem;">
+                                <div th:if="${allAppointments == null or #lists.isEmpty(allAppointments)}">
+                                    <p class="text-muted">No appointments found.</p>
+                                </div>
+                                <div th:if="${allAppointments != null and !#lists.isEmpty(allAppointments)}">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle mb-0" style="background:transparent; border-radius:14px; overflow:hidden;">
+                                            <thead class="table-light" style="background:#f1f5ff;">
+                                                <tr style="font-size:1.08rem;">
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Pet</th>
+                                                    <th>Owner</th>
+                                                    <th>Reason</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="appointment : ${allAppointments}" style="transition:background 0.2s;">
+                                                    <td th:text="${#temporals.format(appointment.dateTime, 'dd/MM/yyyy')}"></td>
+                                                    <td th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}"></td>
+                                                    <td th:text="${petNames.get(appointment.petId)}"></td>
+                                                    <td th:text="${ownerNames.get(appointment.ownerId)}"></td>
+                                                    <td th:text="${appointment.reason}"></td>
+                                                    <td th:text="${appointment.status}"></td>
+                                                    <td>
+                                                        <form th:if="${appointment.status == 'SCHEDULED'}" th:action="@{/vet/appointments/{id}/complete(id=${appointment.id})}" method="post" style="display:inline;">
+                                                            <button type="submit" class="btn btn-success btn-sm" style="font-weight:600; letter-spacing:0.5px; border-radius:8px; padding:6px 16px; margin-right:4px; transition:background 0.18s;">
+                                                                <i class="fas fa-check"></i> Complete
+                                                            </button>
+                                                        </form>
+                                                        <form th:if="${appointment.status == 'SCHEDULED'}" th:action="@{/vet/appointments/{id}/cancel(id=${appointment.id})}" method="post" style="display:inline;">
+                                                            <button type="submit" class="btn btn-danger btn-sm" style="font-weight:600; letter-spacing:0.5px; border-radius:8px; padding:6px 16px; transition:background 0.18s;">
+                                                                <i class="fas fa-times"></i> Cancel
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Completed Appointments Block -->
+                    <div class="col-12">
+                        <div class="card shadow-sm mb-4 border-0" style="border-radius:22px; background:linear-gradient(135deg,#e8f5e9 0%,#f8f9fa 100%); box-shadow:0 6px 32px rgba(46,125,50,0.10);">
+                            <div class="card-header bg-white border-0 d-flex align-items-center" style="border-radius:22px 22px 0 0; min-height:64px;">
+                                <i class="fas fa-check-circle me-2" style="color:#2e7d32; font-size:1.7rem;"></i>
+                                <h3 class="mb-0" style="color:#2e7d32; font-weight:800; letter-spacing:0.5px; font-size:1.3rem;">Completed Appointments</h3>
+                            </div>
+                            <div class="card-body" style="padding:2rem 1.5rem;">
+                                <div th:if="${completedAppointments == null or #lists.isEmpty(completedAppointments)}">
+                                    <p class="text-muted">No completed appointments.</p>
+                                </div>
+                                <div th:if="${completedAppointments != null and !#lists.isEmpty(completedAppointments)}">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle mb-0" style="background:transparent; border-radius:14px; overflow:hidden;">
+                                            <thead class="table-light" style="background:#e8f5e9;">
+                                                <tr style="font-size:1.08rem;">
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Pet</th>
+                                                    <th>Owner</th>
+                                                    <th>Reason</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="appointment : ${completedAppointments}" style="transition:background 0.2s;">
+                                                    <td th:text="${#temporals.format(appointment.dateTime, 'dd/MM/yyyy')}"></td>
+                                                    <td th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}"></td>
+                                                    <td th:text="${petNames.get(appointment.petId)}"></td>
+                                                    <td th:text="${ownerNames.get(appointment.ownerId)}"></td>
+                                                    <td th:text="${appointment.reason}"></td>
+                                                    <td th:text="${appointment.status}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cancelled Appointments Block -->
+                    <div class="col-12">
+                        <div class="card shadow-sm mb-4 border-0" style="border-radius:22px; background:linear-gradient(135deg,#ffebee 0%,#f8f9fa 100%); box-shadow:0 6px 32px rgba(198,40,40,0.10);">
+                            <div class="card-header bg-white border-0 d-flex align-items-center" style="border-radius:22px 22px 0 0; min-height:64px;">
+                                <i class="fas fa-times-circle me-2" style="color:#c62828; font-size:1.7rem;"></i>
+                                <h3 class="mb-0" style="color:#c62828; font-weight:800; letter-spacing:0.5px; font-size:1.3rem;">Cancelled Appointments</h3>
+                            </div>
+                            <div class="card-body" style="padding:2rem 1.5rem;">
+                                <div th:if="${cancelledAppointments == null or #lists.isEmpty(cancelledAppointments)}">
+                                    <p class="text-muted">No cancelled appointments.</p>
+                                </div>
+                                <div th:if="${cancelledAppointments != null and !#lists.isEmpty(cancelledAppointments)}">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle mb-0" style="background:transparent; border-radius:14px; overflow:hidden;">
+                                            <thead class="table-light" style="background:#ffebee;">
+                                                <tr style="font-size:1.08rem;">
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Pet</th>
+                                                    <th>Owner</th>
+                                                    <th>Reason</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="appointment : ${cancelledAppointments}" style="transition:background 0.2s;">
+                                                    <td th:text="${#temporals.format(appointment.dateTime, 'dd/MM/yyyy')}"></td>
+                                                    <td th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}"></td>
+                                                    <td th:text="${petNames.get(appointment.petId)}"></td>
+                                                    <td th:text="${ownerNames.get(appointment.ownerId)}"></td>
+                                                    <td th:text="${appointment.reason}"></td>
+                                                    <td th:text="${appointment.status}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Chatbot-specific CSS to ensure proper display -->
+    <style>
+        /* Ensure chatbot appears above all other elements */
+        #chatbot-widget {
+            position: fixed !important;
+            bottom: 20px !important;
+            right: 20px !important;
+            z-index: 9999 !important;
+        }
+        
+        /* Ensure chatbot toggle button is visible */
+        #chatbot-toggle {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            padding: 12px 16px !important;
+            border-radius: 50px !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3) !important;
+            transition: all 0.3s ease !important;
+            font-weight: 600 !important;
+            border: none !important;
+            outline: none !important;
+        }
+        
+        #chatbot-toggle:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
+        }
+        
+        /* Ensure chatbot window is properly positioned */
+        #chatbot-window {
+            position: absolute !important;
+            bottom: 70px !important;
+            right: 0 !important;
+            width: 350px !important;
+            height: 500px !important;
+            background: white !important;
+            border-radius: 20px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+            display: none !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            border: 1px solid #e1e5e9 !important;
+        }
+        
+        /* Ensure chatbot is visible when open */
+        .chatbot-container.open #chatbot-window {
+            display: flex !important;
+        }
+        
+        /* Ensure chatbot header is properly styled */
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            padding: 16px 20px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+        
+        /* Ensure chatbot messages area is properly styled */
+        .chatbot-messages {
+            flex: 1 !important;
+            padding: 20px !important;
+            overflow-y: auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 15px !important;
+        }
+        
+        /* Ensure chatbot input area is properly styled */
+        .chatbot-input {
+            padding: 20px !important;
+            border-top: 1px solid #e1e5e9 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+        
+        /* Ensure chatbot options are properly styled */
+        .chatbot-option {
+            background: #f8f9fa !important;
+            border: 1px solid #e1e5e9 !important;
+            padding: 10px 16px !important;
+            border-radius: 12px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            transition: all 0.3s ease !important;
+            text-align: left !important;
+            color: #333 !important;
+            border: none !important;
+            outline: none !important;
+        }
+        
+        .chatbot-option:hover {
+            background: #667eea !important;
+            color: white !important;
+            border-color: #667eea !important;
+        }
+        
+        .chatbot-option.primary {
+            background: #667eea !important;
+            color: white !important;
+            border-color: #667eea !important;
+        }
+        
+        /* Ensure FontAwesome icons are loaded */
+        .fas, .fa {
+            font-family: 'Font Awesome 5 Free' !important;
+            font-weight: 900 !important;
+        }
+        
+        /* Ensure chatbot badge is visible */
+        .chatbot-badge {
+            font-size: 14px !important;
+            font-weight: 600 !important;
+        }
+    </style>
+    
+    <!-- FontAwesome for chatbot icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 

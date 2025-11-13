@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register - Veterinary Management System</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <div class="logo-section">
+                    <i class="fas fa-paw logo-icon"></i>
+                    <a th:href="@{/}" class="logo-link">
+                        <span>VetCare</span>
+                    </a>
+                </div>
+                <h2>Create Your Account</h2>
+                <p>Join our veterinary management system and start managing your pets' health</p>
+            </div>
+
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+            <form th:action="@{/user/register}" th:object="${user}" method="post" class="register-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user"></i>
+                            Username
+                        </label>
+                        <input type="text" id="username" th:field="*{username}" placeholder="Enter your username" required/>
+                        <span th:if="${#fields.hasErrors('username')}" class="error-message" th:errors="*{username}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName">
+                            <i class="fas fa-id-card"></i>
+                            Full Name
+                        </label>
+                        <input type="text" id="fullName" th:field="*{fullName}" placeholder="Enter your full name" required/>
+                        <span th:if="${#fields.hasErrors('fullName')}" class="error-message" th:errors="*{fullName}"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input type="email" id="email" th:field="*{email}" placeholder="Enter your email" required/>
+                        <span th:if="${#fields.hasErrors('email')}" class="error-message" th:errors="*{email}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">
+                            <i class="fas fa-phone"></i>
+                            Mobile
+                        </label>
+                        <input type="text" id="mobile" th:field="*{mobile}" placeholder="Enter your mobile number" required/>
+                        <span th:if="${#fields.hasErrors('mobile')}" class="error-message" th:errors="*{mobile}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        Password
+                    </label>
+                    <input type="password" id="password" th:field="*{password}" placeholder="Create a strong password" required/>
+                    <span th:if="${#fields.hasErrors('password')}" class="error-message" th:errors="*{password}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Address
+                    </label>
+                    <textarea id="address" th:field="*{address}" placeholder="Enter your complete address" required></textarea>
+                    <span th:if="${#fields.hasErrors('address')}" class="error-message" th:errors="*{address}"></span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-register">
+                        <i class="fas fa-user-plus"></i>
+                        Create Account
+                    </button>
+                    <a th:href="@{/login}" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Back to Login
+                    </a>
+                </div>
+            </form>
+
+            <div class="register-footer">
+                <p>Already have an account? <a th:href="@{/login}">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html>

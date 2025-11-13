@@ -1,0 +1,13 @@
+/* Services page */
+@import url('/css/home.css');
+
+.hero-services { background: linear-gradient(135deg, #6b8afd, #8a5eea); }
+
+.services-section { padding: 4rem 0; background: #fff; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+.service-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 22px; text-align: center; box-shadow: 0 10px 24px rgba(0,0,0,0.08); transition: transform .3s ease, box-shadow .3s ease; }
+.service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+.service-icon { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg,#667eea,#764ba2); color:#fff; display:flex; align-items:center; justify-content:center; margin: 0 auto 12px; }
+.service-icon i { font-size: 1.6rem; }
+.service-card h3 { margin: 8px 0 6px; color: #2d3748; }
+.service-card p { color: #4a5568; }

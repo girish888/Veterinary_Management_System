@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="dashboard-nav">
+            <h2>Dashboard</h2>
+            <ul>
+                <li th:if="${user.role.name() == 'ADMIN'}">
+                    <a th:href="@{/dashboard/admin}">Admin Dashboard</a>
+                </li>
+                <li th:if="${user.role.name() == 'VETERINARIAN'}">
+                    <a th:href="@{/dashboard/vet}">Veterinarian Dashboard</a>
+                </li>
+                <li th:if="${user.role.name() == 'OWNER'}">
+                    <a th:href="@{/owner/dashboard}">Owner Dashboard</a>
+                </li>
+                <li><a th:href="@{/profile}">Profile</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post" style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-link" style="padding:0; color:inherit; text-decoration:none; width:100%; text-align:left; border:none; background:none; font-size:1em;">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="dashboard-content">
+            <div th:if="${user.role.name() == 'ADMIN'}" class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Pets</h3>
+                    <p th:text="${petCount}">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Owners</h3>
+                    <p th:text="${ownerCount}">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Veterinarians</h3>
+                    <p th:text="${veterinarianCount}">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Appointments</h3>
+                    <p th:text="${appointmentCount}">0</p>
+                </div>
+            </div>
+
+            <div th:if="${user.role.name() == 'VETERINARIAN'}">
+                <h3>Upcoming Appointments</h3>
+                <div th:each="appointment : ${upcomingAppointments}" class="appointment-card">
+                    <h4 th:text="${appointment.pet.name}">Pet Name</h4>
+                    <p th:text="${#temporals.format(appointment.dateTime, 'dd/MM/yyyy HH:mm')}">Date and Time</p>
+                    <p th:text="${appointment.owner.fullName}">Owner Name</p>
+                    <p th:text="${appointment.reason}">Appointment Reason</p>
+                </div>
+            </div>
+
+            <div th:if="${user.role.name() == 'OWNER'}">
+                <h3>My Pets</h3>
+                <div class="pets-grid">
+                    <div th:each="pet : ${pets}" class="pet-card">
+                        <img th:if="${pet.photoUrl}" th:src="${pet.photoUrl}" alt="Pet Photo">
+                        <h4 th:text="${pet.name}">Pet Name</h4>
+                        <p th:text="${pet.species}">Species</p>
+                        <p th:text="${pet.breed}">Breed</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</body>
+</html> 
