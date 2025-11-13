@@ -1,6 +1,7 @@
 🏥 Veterinary Management System
 
-A complete web application designed to manage all veterinary clinic activities. The system helps Pet Owners, Veterinarians, and Admins handle appointments, pets, profiles, and communication easily.
+A complete web application designed to manage veterinary clinic operations.
+The system supports Pet Owners, Veterinarians, and Administrators by simplifying appointments, pet details, communication, notifications, and daily clinic workflows.
 
 ⭐ Key Features
 🔐 User Accounts & Roles
@@ -9,61 +10,61 @@ Three user types: Admin, Veterinarian, Pet Owner
 
 Secure login using Spring Security
 
-Passwords stored safely using BCrypt
+Passwords protected with BCrypt encryption
 
-Each user gets their own dashboard
+Individual dashboards based on role
 
 📅 Appointment System
 
-Pet owners can book appointments with veterinarians
+Book appointments with veterinarians
 
-System checks for time conflicts
+Automatic time-slot conflict detection
 
-Email sent instantly after booking
+Instant email confirmation after booking
 
-Automatic daily reminder emails at 8 AM
+Daily 8 AM reminder emails
 
-Users can reschedule appointments easily
+Easy rescheduling options
 
 📬 Email & Notifications
 
-Email service integrated using Gmail SMTP
+Gmail SMTP-based email service
 
-Appointment confirmation emails
+Appointment confirmations
 
-Reminder emails for upcoming appointments
+Reminder notifications
 
-Notification messages for all important actions
+Real-time updates for key actions
 
 🖼️ Profile & Photo Management
 
-Users can upload profile photos
+Upload profile images
 
-System checks image size and type
+File type & size validation
 
-Photos display properly on all devices
+Responsive photo display
 
-Uses fallback image if photo fails to load
+Fallback images if photo fails to load
 
 📊 Dashboards
 
-Admin Dashboard: Manage users, view system data
+Admin: user management, analytics, appointments
 
-Veterinarian Dashboard: View appointments, write prescriptions
+Veterinarian: daily schedule, prescriptions, messages
 
-Pet Owner Dashboard: Manage pets and appointments
+Pet Owner: pet profiles, bookings, history
 
-Shows stats and important information in one place
+Clean analytics & statistics
 
 🛠️ Admin Controls
 
-Add, edit, or remove users
+Add/edit/remove users
 
-Monitor appointments
+Monitor system-wide appointments
 
-Control system settings
+Update system settings
 
-View analytics and data
+View analytical data
 
 🧰 Technologies Used
 
@@ -75,85 +76,122 @@ Database: MySQL
 
 Email: Spring Mail (Gmail SMTP)
 
-Scheduler: Quartz for automated tasks
+Scheduler: Quartz
 
 Build Tool: Maven
 
-🚀 How to Run
+🚀 How to Run the Project
+1️⃣ Install Requirements
 
-Install Java 17, MySQL, and Maven
+Java 17+
 
-Create database vet_management
+MySQL 8+
 
-Update DB and Email settings in application.properties
+Maven
 
-Run:
+2️⃣ Database Setup
 
+Create MySQL database:
+
+CREATE DATABASE vet_management;
+
+3️⃣ Update application.properties
+
+Add your DB & email credentials.
+
+4️⃣ Build & Run
 mvn clean package
 java -jar target/vet-management-0.0.1-SNAPSHOT.jar
 
-
-Open the app:
+5️⃣ Access Application
 
 Main: http://localhost:7055
 
 Admin: http://localhost:7055/admin
 
-Vet: http://localhost:7055/vet
+Veterinarian: http://localhost:7055/vet
 
 Owner: http://localhost:7055/owner
 
 📱 User Functions
 👤 Pet Owners
 
-Create account
+Manage profile & pets
 
-Manage profile and pets
+Book appointments
 
-Book and view appointments
+Receive automated reminders
 
-Get email notifications
+Access past appointments
 
 👨‍⚕️ Veterinarians
 
-Manage daily appointments
+View/manage appointments
 
-View pet details
+Handle pet medical details
 
-Write prescriptions
+Create prescriptions
 
 Communicate with owners
 
-🛡️ Admin
+🛡️ Admins
 
-Full control of system
+Manage entire system
 
-Manage all users
+Control user data & permissions
 
-View analytics
+Monitor appointments
 
-Maintain system records
+View stats & reports
 
 🧪 Testing Areas
 
-Registration and Login
+User registration & login
 
-Appointment booking
+Appointment booking flow
 
-Email sending
+Email notifications
 
-Image upload
+Photo upload
 
-Dashboard navigation
+Dashboard functionality
 
 ❗ Troubleshooting
 
-Check MySQL connection if app doesn't start
+MySQL not starting → check DB service
 
-Verify Gmail app password for email errors
+Emails not working → verify Gmail App Password
 
-Ensure uploads/ folder has permission for photo upload
+Image upload issues → check uploads/ directory permissions
+
+This project was developed as part of Project (203105400),
+7th Semester,
+B.Tech CSE, Parul University, Academic Year 2023–2024,
+under Group No. AI-96.
+
+👨‍💻 Team Members (Updated Roles)
+Name	Enrollment No.	Role
+
+Y. Girish Uday	2203031241436	Backend Developer + Spring Boot + GitHub Maintainer
+
+M. Devendra	2203031240761	Backend Developer + Spring Boot
+
+N. Vijay Kumar	2203031240939	Tester
+
+S. Leela Prasad	2203031241190	Frontend Developer
+
+🧑‍🏫 Project Guide
+
+Mr. Hojiwala Robin AjayKumar
+Project Guide, Parul University
+
+📘 Project Coordinators
+
+Dr. Mohammad Arif
+
+Dr. Sanjay Agal
+Head of CSE, PIET, Parul University
 
 📄 License
 
-This project uses the MIT License.
+This project is licensed under the MIT License.
