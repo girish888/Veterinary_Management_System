@@ -1,260 +1,159 @@
-# 🏥 Veterinary Management System
+🏥 Veterinary Management System
 
-A comprehensive full-stack web application designed to streamline veterinary care management, facilitating seamless communication and appointment scheduling between veterinarians and pet owners.
+A complete web application designed to manage all veterinary clinic activities. The system helps Pet Owners, Veterinarians, and Admins handle appointments, pets, profiles, and communication easily.
 
-## 🌟 Key Features
+⭐ Key Features
+🔐 User Accounts & Roles
 
-### **User Management & Authentication**
-- **Multi-role Support**: Separate portals for Veterinarians, Pet Owners, and Administrators
-- **Secure Authentication**: Spring Security with BCrypt password hashing
-- **Profile Management**: Complete user profiles with photo upload capabilities
-- **Role-based Access Control**: Tailored interfaces for each user type
+Three user types: Admin, Veterinarian, Pet Owner
 
-### **Appointment Management**
-- **Smart Scheduling**: Real-time appointment booking with conflict detection
-- **Immediate Confirmations**: Instant email confirmations upon booking
-- **Automated Reminders**: Scheduled email reminders (8 AM daily)
-- **Rescheduling**: Flexible appointment modification for pet owners
+Secure login using Spring Security
 
-### **Communication & Notifications**
-- **Email System**: Gmail SMTP integration for reliable delivery
-- **Automated Reminders**: Configurable reminder scheduling
-- **Real-time Updates**: Instant notifications for all system events
+Passwords stored safely using BCrypt
 
-### **Profile & Media Management**
-- **Photo Upload**: Drag-and-drop profile photo management
-- **Image Validation**: Automatic file type and size validation
-- **Responsive Design**: Mobile-optimized photo display
-- **Fallback Support**: Graceful degradation for failed image loads
+Each user gets their own dashboard
 
-### **Dashboard & Analytics**
-- **Role-specific Dashboards**: Customized views for each user type
-- **Appointment Overview**: Comprehensive scheduling management
-- **Profile Statistics**: User activity and information tracking
+📅 Appointment System
 
-### **Admin Panel**
-- **User Management**: Complete user oversight and control
-- **System Monitoring**: Appointment and user analytics
-- **Content Management**: System-wide configuration options
+Pet owners can book appointments with veterinarians
 
-## 🛠️ Technologies Used
+System checks for time conflicts
 
-### **Frontend**
-- **HTML5**: Semantic markup with modern standards
-- **CSS3**: Advanced styling with CSS Grid, Flexbox, and custom properties
-- **JavaScript (ES6+)**: Modern JavaScript with async/await and ES6 modules
-- **Thymeleaf**: Server-side templating engine
-- **Font Awesome**: Comprehensive icon library
+Email sent instantly after booking
 
-### **Backend**
-- **Spring Boot 3.x**: Modern Java framework with auto-configuration
-- **Spring Security**: Robust authentication and authorization
-- **Spring Data JPA**: Object-relational mapping with Hibernate
-- **Spring Mail**: Email service integration
-- **Spring Quartz**: Scheduled task management
+Automatic daily reminder emails at 8 AM
 
-### **Database**
-- **MySQL 8.0+**: Reliable relational database
-- **HikariCP**: High-performance connection pooling
-- **JPA/Hibernate**: Object-relational mapping
+Users can reschedule appointments easily
 
-### **Infrastructure**
-- **Maven**: Dependency management and build automation
-- **Gmail SMTP**: Email delivery service
-- **File Storage**: Local file system with organized directory structure
+📬 Email & Notifications
 
-## 🚀 Installation & Setup
+Email service integrated using Gmail SMTP
 
-### **Prerequisites**
-- Java 17 or higher
-- MySQL 8.0 or higher
-- Maven 3.6 or higher
-- Modern web browser (Chrome, Firefox, Safari, Edge)
+Appointment confirmation emails
 
-### **Step 1: Clone the Repository**
-```bash
-git clone https://github.com/yourusername/veterinary-management-system.git
-cd veterinary-management-system
-```
+Reminder emails for upcoming appointments
 
-### **Step 2: Database Setup**
-1. **Create MySQL Database**
-   ```sql
-   CREATE DATABASE vet_management;
-   USE vet_management;
-   ```
+Notification messages for all important actions
 
-2. **Configure Database Connection**
-   - Edit `src/main/resources/application.properties`
-   - Update database credentials:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/vet_management
-   spring.datasource.username=your_username
-   spring.datasource.password=your_password
-   ```
+🖼️ Profile & Photo Management
 
-### **Step 3: Email Configuration**
-1. **Generate Gmail App Password**
-   - Go to Google Account Settings → Security
-   - Enable 2-Factor Authentication
-   - Generate App Password for "Mail"
+Users can upload profile photos
 
-2. **Update Email Settings**
-   ```properties
-   spring.mail.username=your-email@gmail.com
-   spring.mail.password=your-app-password
-   ```
+System checks image size and type
 
-### **Step 4: Build and Run**
-```bash
-# Clean and build the project
+Photos display properly on all devices
+
+Uses fallback image if photo fails to load
+
+📊 Dashboards
+
+Admin Dashboard: Manage users, view system data
+
+Veterinarian Dashboard: View appointments, write prescriptions
+
+Pet Owner Dashboard: Manage pets and appointments
+
+Shows stats and important information in one place
+
+🛠️ Admin Controls
+
+Add, edit, or remove users
+
+Monitor appointments
+
+Control system settings
+
+View analytics and data
+
+🧰 Technologies Used
+
+Frontend: HTML, CSS, JavaScript, Thymeleaf
+
+Backend: Spring Boot, Spring Security, Spring Data JPA
+
+Database: MySQL
+
+Email: Spring Mail (Gmail SMTP)
+
+Scheduler: Quartz for automated tasks
+
+Build Tool: Maven
+
+🚀 How to Run
+
+Install Java 17, MySQL, and Maven
+
+Create database vet_management
+
+Update DB and Email settings in application.properties
+
+Run:
+
 mvn clean package
-
-# Run the application
 java -jar target/vet-management-0.0.1-SNAPSHOT.jar
-```
 
-### **Step 5: Access the Application**
-- **Main Application**: http://localhost:7055
-- **Admin Portal**: http://localhost:7055/admin
-- **Veterinarian Portal**: http://localhost:7055/vet
-- **Pet Owner Portal**: http://localhost:7055/owner
 
-## 📱 User Guide
+Open the app:
 
-### **For Pet Owners**
-1. **Registration**: Create account with email and basic information
-2. **Profile Setup**: Upload profile photo and complete personal details
-3. **Book Appointments**: Select veterinarian, date, and time
-4. **Manage Pets**: Add and maintain pet information
-5. **View History**: Access appointment and prescription history
+Main: http://localhost:7055
 
-### **For Veterinarians**
-1. **Professional Profile**: Set up specialization and working hours
-2. **Appointment Management**: View and manage scheduled appointments
-3. **Prescription Management**: Create and manage pet prescriptions
-4. **Communication**: Respond to pet owner messages
+Admin: http://localhost:7055/admin
 
-### **For Administrators**
-1. **User Management**: Oversee all system users
-2. **System Monitoring**: Track appointments and system usage
-3. **Content Management**: Manage system-wide settings
+Vet: http://localhost:7055/vet
 
-## 🔧 Configuration
+Owner: http://localhost:7055/owner
 
-### **Environment Variables**
-```properties
-# Database Configuration
-spring.datasource.url=jdbc:mysql://localhost:3306/vet_management
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+📱 User Functions
+👤 Pet Owners
 
-# Email Configuration
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=your-email@gmail.com
-spring.mail.password=your-app-password
+Create account
 
-# File Upload
-file.upload-dir=./uploads
+Manage profile and pets
 
-# Server Configuration
-server.port=7055
-```
+Book and view appointments
 
-### **Customization Options**
-- **Reminder Timing**: Configure email reminder schedules
-- **File Upload Limits**: Adjust maximum file sizes
-- **UI Themes**: Customize color schemes and layouts
+Get email notifications
 
-## 🧪 Testing
+👨‍⚕️ Veterinarians
 
-### **Manual Testing**
-1. **User Registration**: Test all user role registrations
-2. **Photo Upload**: Verify image upload and display
-3. **Appointment Booking**: Test scheduling and confirmation flow
-4. **Email Delivery**: Confirm notification delivery
+Manage daily appointments
 
-### **Browser Compatibility**
-- ✅ Chrome 90+
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ✅ Edge 90+
+View pet details
 
-## 📸 Screenshots
+Write prescriptions
 
-*[Screenshots will be added here showing the main interfaces]*
+Communicate with owners
 
-## 🚨 Troubleshooting
+🛡️ Admin
 
-### **Common Issues**
+Full control of system
 
-#### **Database Connection Failed**
-```bash
-# Check MySQL service status
-sudo systemctl status mysql
+Manage all users
 
-# Verify credentials in application.properties
-# Ensure database exists and is accessible
-```
+View analytics
 
-#### **Email Not Sending**
-```bash
-# Verify Gmail App Password
-# Check firewall settings
-# Ensure 2FA is enabled on Gmail account
-```
+Maintain system records
 
-#### **Photo Upload Issues**
-```bash
-# Check file permissions on uploads directory
-# Verify file size limits
-# Ensure proper file types (JPG, PNG, GIF)
-```
+🧪 Testing Areas
 
-### **Logs and Debugging**
-- **Application Logs**: Check console output for detailed error messages
-- **Database Logs**: Review MySQL error logs for connection issues
-- **Email Debug**: Enable debug logging in application.properties
+Registration and Login
 
-## 🤝 Contributing
+Appointment booking
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+Email sending
 
-### **Development Setup**
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+Image upload
 
-## 📄 License
+Dashboard navigation
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+❗ Troubleshooting
 
-## 📞 Support
+Check MySQL connection if app doesn't start
 
-### **Getting Help**
-- **Documentation**: Check this README and TECHNICAL.md
-- **Issues**: Report bugs via GitHub Issues
-- **Discussions**: Join our community discussions
+Verify Gmail app password for email errors
 
-### **Contact Information**
-- **Project Maintainer**: [Your Name]
-- **Email**: [your-email@domain.com]
-- **GitHub**: [@yourusername]
+Ensure uploads/ folder has permission for photo upload
 
-## 🙏 Acknowledgments
+📄 License
 
-- **Spring Boot Team**: For the excellent framework
-- **MySQL Community**: For the reliable database
-- **Font Awesome**: For the comprehensive icon library
-- **Open Source Community**: For inspiration and support
-
----
-
-**Made with ❤️ for the veterinary community**
-
-*Last updated: August 2024*
-#   V e t e r i n a r y _ M a n a g e m e n t _ S y s t e m  
- 
+This project uses the MIT License.
